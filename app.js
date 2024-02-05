@@ -70,23 +70,30 @@ app.post('/todo/add', (req, res, next) => {
   });
 });
 
-// Delete messages on redis by index (Modify as needed for PostgreSQL)
-app.post('/todo/delete', (req, res, next) => {
-  var delTODO = req.body.todo;
-  var deleted = '__DELETED__';
+app.post('/todo/delete', async (req, res) => {
+  let delTODO = req.body['todo[]']; // Make sure to match the name attribute of your form inputs
   
-  client.LRANGE('todo', 0, -1, (err, todo) => {
-    for (let i = 0; i < delTODO.length; i++) {
-      client.LSET('todo', delTODO[i], deleted);
-    }
-    client.LREM('todo', 0, deleted);
-    
-    // Additional logic needed here to delete from PostgreSQL if required
-    // This part is left as an exercise depending on how you want to handle deletions in PostgreSQL
-    
-    res.redirect('/');
-  });
+  // Handle the case where only a single task is selected for deletion
+  if (typeof delTODO === 'string') {
+    delTODO = [delTODO];
+  }
+
+  if (delTODO && delTODO.length) {
+    // Proceed with your deletion logic for both Redis and PostgreSQL
+    // Example for PostgreSQL deletion logic:
+    delTODO.forEach(async (taskId) => {
+      try {
+        await pool.query('DELETE FROM tasks WHERE id = $1', [taskId]);
+        // Add similar logic for Redis if needed
+      } catch (err) {
+        console.error('Error deleting task:', err);
+      }
+    });
+  }
+
+  res.redirect('/');
 });
+
 
 // Port listen of the app
 app.listen(3000, () => {

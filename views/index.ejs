@@ -12,20 +12,20 @@
     <h1 class="text-center"> <%= title %> </h1>
     <form action="/todo/add" method="POST">
       <div class="form-group">
-        <input type="text" class="form-control" name="todos" placeholder="Send a message...">
+        <input type="text" class="form-control" name="todos" placeholder="Add a new task...">
+        <input type="submit" value="Add" class="btn btn-primary">
       </div>
     </form>
     <form action="/todo/delete" method="POST">
-    
-      <% todo.forEach( (list) => { %>
+      <% todo.forEach((taskObj) => { %>
         <div class="alert alert-success">
-          <input type="checkbox" class="form-check-input mt-2" name="todo" value="<%= counter %>">
-          <h4 class="d-inline">> </h4> <strong><%= list %></strong>
+          <!-- Ensure the checkbox name is todo[] to send as an array -->
+          <input type="checkbox" class="form-check-input mt-2" name="todo[]" value="<%= taskObj.id %>">
+          <label class="form-check-label"><%= taskObj.task %></label>
         </div>
-        <% counter++ %>
       <% }) %>
-        <input type="submit" value="Remove" class="btn btn-primary">
-    </form>
+      <input type="submit" value="Remove" class="btn btn-primary">
+    </form>    
     <br>
   </div>
 </body>
