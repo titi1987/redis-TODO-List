@@ -1,0 +1,26 @@
+#################
+
+npm install
+
+node .
+
+npm install pg
+
+##################
+
+CREATE TABLE tasks (
+  id SERIAL PRIMARY KEY,
+  task TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+
+SELECT * FROM tasks;
+
+####################
+
+redis-cli
+KEYS *
+LRANGE todo 0 -1
+
+#####################
