@@ -1,31 +1,39 @@
-version: '3.8'
+version: '3.9'
+
 services:
-  app:
+  redis:
+    image: redis:latest
+    networks:
+      - webnet
+
+  db:
+    image: postgres
+    networks:
+      - webnet
+    environment:
+      POSTGRES_PASSWORD: Reborn1987!
+      POSTGRES_USER: postgres
+      POSTGRES_DB: todo
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
     build: .
     ports:
       - "3000:3000"
     depends_on:
       - db
       - redis
+    networks:
+      - webnet
     environment:
       DATABASE_URL: postgres://postgres:Reborn1987!@db/todo
       REDIS_URL: redis://redis:6379
 
-  db:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Reborn1987!
-      POSTGRES_DB: todo
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      - postgres_data:/var/lib/postgresql/data
-
-  redis:
-    image: redis:latest
-    volumes:
-      - redis_data:/data
+networks:
+  webnet:
 
 volumes:
   postgres_data:
-  redis_data:
+

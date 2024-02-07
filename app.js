@@ -5,10 +5,10 @@ const bodyParser = require('body-parser');
 const redis = require('redis');
 const { Pool } = require('pg'); // Import the Pool class from the pg module
 
-// PostgreSQL Connection Setup
+
 const pool = new Pool({
   user: 'postgres',
-  host: 'localhost',
+  host: 'db', // Use the service name
   database: 'todo',
   password: 'Reborn1987!',
   port: 5432,
@@ -18,9 +18,9 @@ const pool = new Pool({
 var app = express();
 
 // Redis Client
-const client = redis.createClient();
-client.on('connect', () => {
-  console.log('Connected to Redis...');
+const redisClient = redis.createClient({
+  host: "redis", // Use the hostname of the Redis container
+  port: 6379,
 });
 
 // View engine
