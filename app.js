@@ -55,7 +55,7 @@ app.post('/todo/add', (req, res, next) => {
   var todo = req.body.todos;
   
   // Add to Redis
-  client.RPUSH('todo', todo, (err, reply) => {
+  redisClient.RPUSH('todo', todo, (err, reply) => {
     if (err) {
       return res.send(err);
     }

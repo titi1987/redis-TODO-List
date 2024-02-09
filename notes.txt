@@ -24,3 +24,23 @@ KEYS *
 LRANGE todo 0 -1
 
 #####################
+
+#login to postgres with postgres user#
+psql -U postgres
+
+CREATE DATABASE todo;
+
+
+#change todo db#
+\c todo
+
+
+CREATE TABLE tasks (
+  id SERIAL PRIMARY KEY,
+  task TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+
+#show table#
+\dt
