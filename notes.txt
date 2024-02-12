@@ -35,6 +35,10 @@ CREATE DATABASE todo;
 \c todo
 
 
+# list databases
+\l
+
+
 CREATE TABLE tasks (
   id SERIAL PRIMARY KEY,
   task TEXT NOT NULL,
