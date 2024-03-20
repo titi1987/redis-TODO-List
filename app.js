@@ -9,9 +9,9 @@ const { Pool } = require('pg'); // Import the Pool class from the pg module
 const pool = new Pool({
   user: 'postgres',
   host: 'db', // Use the service name
-  database: 'todo',
-  password: 'Reborn1987!',
-  port: 5432,
+  database: '',
+  password: ',
+  port: ,
 });
 
 // Initialization of express
